@@ -22,7 +22,7 @@ class RandomWordState extends State<RandomWords> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Startup Name Generator'),
+        title: Text('Random words'),
       ),
       body: _buildSuggestions(),
     );
