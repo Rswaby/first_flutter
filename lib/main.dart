@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
 class RandomWordState extends State<RandomWords> {
   final _suggestions = <WordPair>[]; //wordpair is imported at the top
   final _biggerFont = const TextStyle(fontSize: 18.0);
+  final _saved = Set<WordPair>();
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +30,8 @@ class RandomWordState extends State<RandomWords> {
   }
 
   Widget _buildRow(WordPair pair) {
+    final bool alreadySaved = _saved.contains(pair)
+
     return ListTile(
       title: Text(
         pair.asPascalCase,
