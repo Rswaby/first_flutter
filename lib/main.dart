@@ -24,10 +24,18 @@ class RandomWordState extends State<RandomWords> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Random words'),
+        actions: <Widget>[
+          IconButton(icon: Icon(Icons.list),onPressed: _pushSaved),
+        ],
       ),
       body: _buildSuggestions(),
     );
   }
+
+  void _pushSaved(){
+    
+  }
+  
 
   Widget _buildRow(WordPair pair) {
     final bool alreadySaved = _saved.contains(pair);
