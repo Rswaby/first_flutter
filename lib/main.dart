@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
 // import 'package:flutter/rendering.dart';
@@ -7,10 +9,7 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Welcome to Flutter',
-      home: RandomWords()
-    );
+    return MaterialApp(title: 'Welcome to Flutter', home: RandomWords());
   }
 }
 
@@ -25,21 +24,46 @@ class RandomWordState extends State<RandomWords> {
       appBar: AppBar(
         title: Text('Random words'),
         actions: <Widget>[
-          IconButton(icon: Icon(Icons.list),onPressed: _pushSaved),
+          IconButton(icon: Icon(Icons.list), onPressed: _pushSaved),
         ],
       ),
       body: _buildSuggestions(),
     );
   }
 
-  void _pushSaved(){
-    // Navigator.of(context).push()
+  void _pushSaved() {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) {
+          final Iterable<ListTile> tiles = _saved.map(
+            (WordPair pair) {
+              return ListTile(
+                title: Text(
+                  pair.asPascalCase,
+                  style: _biggerFont,
+                ),
+              );
+            },
+          );
+          final List<Widget> divided = ListTile.divideTiles(
+            context: context,
+            tiles: tiles,
+          ).toList();
+
+          return Scaffold(
+            // Add 6 lines from here...
+            appBar: AppBar(
+              title: Text('Saved Suggestions'),
+            ),
+            body: ListView(children: divided),
+          ); // ... to here.
+        },
+      ),
+    );
   }
-  
 
   Widget _buildRow(WordPair pair) {
     final bool alreadySaved = _saved.contains(pair);
-
 
     return ListTile(
       title: Text(
@@ -47,14 +71,14 @@ class RandomWordState extends State<RandomWords> {
         style: _biggerFont,
       ),
       trailing: Icon(
-        alreadySaved? Icons.favorite : Icons.favorite_border,
+        alreadySaved ? Icons.favorite : Icons.favorite_border,
         color: alreadySaved ? Colors.red : null,
       ),
-      onTap: (){
+      onTap: () {
         setState(() {
-          if(alreadySaved){
+          if (alreadySaved) {
             _saved.remove(pair);
-          }else{
+          } else {
             _saved.add(pair);
           }
         });
