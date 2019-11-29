@@ -13,29 +13,49 @@ class MyApp extends StatelessWidget {
         appBar: AppBar(
           title: Text('Welcome to Flutter'),
         ),
-        body: Center(
-          child: RandomWords()
-        ),
+        body: Center(child: RandomWords()),
       ),
     );
   }
 }
 
-
 class RandomWordState extends State<RandomWords> {
-
-  final _suggestions = <WordPair>[]; //wordpair is imported at the top 
-  final _biggerFont = const TextStyle(fontSize:18.0);
+  final _suggestions = <WordPair>[]; //wordpair is imported at the top
+  final _biggerFont = const TextStyle(fontSize: 18.0);
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     final wordPair = WordPair.random();
     return Text(wordPair.asPascalCase);
   }
 
+  Widget _buildRow(WordPair pair) {
+    return ListTile(
+      title: Text(
+        pair.asPascalCase,
+        style: _biggerFont,
+      ),
+    );
+  }
+
+  Widget _buildSuggestions() {
+    return ListView.builder(
+      padding: const EdgeInsets.all(16.0),
+      itemBuilder: /*first call*/ (context, i) {
+        if (i.isOdd) return Divider(); /*second call*/
+
+        final index = i ~/ 2; /*third call*/
+        if (index >= _suggestions.length) {
+          _suggestions.addAll(generateWordPairs().take(10)); /*forth call*/
+        }
+
+        return _buildRow(_suggestions[index]);
+      },
+    );
+  }
 }
 
-class RandomWords extends StatefulWidget{
+class RandomWords extends StatefulWidget {
   @override
   RandomWordState createState() => RandomWordState();
 }
