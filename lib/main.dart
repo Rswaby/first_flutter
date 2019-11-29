@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
 class RandomWordState extends State<RandomWords> {
 
   final _suggestions = <WordPair>[]; //wordpair is imported at the top 
+  final _biggerFont = const TextStyle(fontSize:18.0);
 
   @override
   Widget build(BuildContext context){
