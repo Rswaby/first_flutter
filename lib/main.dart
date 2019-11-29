@@ -24,6 +24,8 @@ class MyApp extends StatelessWidget {
 
 class RandomWordState extends State<RandomWords> {
 
+  final _suggestions = <WordPair>[]; //wordpair is imported at the top 
+
   @override
   Widget build(BuildContext context){
     final wordPair = WordPair.random();
